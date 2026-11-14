@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>流放做装台：Path of Exile 装备制作助手</title>
-<meta name="description" content="选底子、定目标词缀，再按成功率与花费推荐下一步的 PoE 装备制作助手。纯浏览器运行，不联网、不登录。">
+<title>Craft Bench：Path of Exile 的装备制作与市集工具</title>
+<meta name="description" content="Path of Exile 的装备制作助手、市集页插件和实验。纯浏览器运行，不联网、不登录，数据跟着页面走。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="流放做装台：Path of Exile 装备制作助手">
-<meta property="og:description" content="选底子、定目标词缀，再按成功率与花费推荐下一步。纯浏览器运行，不联网、不登录。">
+<meta property="og:title" content="Craft Bench：Path of Exile 的装备制作与市集工具">
+<meta property="og:description" content="装备制作助手、市集页插件和实验。纯浏览器运行，不联网、不登录。">
 <meta property="og:image" content="share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -84,9 +84,55 @@
 #questions .faq__item h3 { margin: 0 0 4px; font-size: var(--t-card); }
 #questions .faq__item p { margin: 0; }
 #questions .grid { align-content: start; }
+#market .t-label, #more .t-label { margin-bottom: var(--s-2); }
+#market .panel, #more .panel { --p-h: 460px; }
+#craft .section-head--split { margin-bottom: var(--s-5); }
+#projects .section-head { margin-bottom: var(--s-4); }
+#projects .projects { margin-top: var(--s-5); }
 #questions .faq__item p { max-width: 60ch; }
 /* the close: keep the head row off the links */
 #contact .closing__cta { margin-bottom: var(--s-8); }
+
+
+/* the project index: a plain list of what the bench holds, one card per project */
+.projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--c-gap); margin-top: var(--s-6); }
+.project-card {
+  display: grid; grid-template-rows: auto auto 1fr auto; gap: var(--s-3);
+  padding: var(--s-5) var(--s-5) var(--s-4);
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--card, var(--surface)); color: inherit; text-decoration: none;
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.project-card:hover, .project-card:focus-visible {
+  border-color: var(--muted); transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / .28); outline: none; color: inherit;
+}
+.project-card__num { font: 500 var(--t-small)/1 var(--font-mono); color: var(--accent); letter-spacing: .08em; }
+.project-card__name { font-size: var(--t-card); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); line-height: 1.25; }
+.project-card__desc { color: var(--muted); font-size: var(--t-small); line-height: 1.6; }
+.project-card__meta { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); margin-top: var(--s-2); }
+.project-card__state { font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.project-card__state.is-live { color: var(--accent); border-color: color-mix(in oklab, var(--accent) 55%, transparent); }
+.project-card__go { font-size: var(--t-small); font-weight: 500; }
+.project-card--more { border-style: dashed; }
+.project-card--more .project-card__num { color: var(--muted); }
+@media (max-width: 1023px) { .projects { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 639px) { .projects { grid-template-columns: minmax(0, 1fr); gap: var(--s-3); } }
+
+
+.project-card__art {
+  margin: var(--s-3) 0 var(--s-2);
+  height: 132px; border-radius: calc(var(--r) - 4px);
+  background: linear-gradient(170deg, color-mix(in oklab, var(--surface) 82%, #cbbfa6), color-mix(in oklab, var(--surface) 62%, #b9a888));
+  position: relative; overflow: hidden;
+}
+.project-card__art > .ui {
+  position: absolute; left: 14px; right: -40px; top: 16px;
+  box-shadow: 0 10px 26px rgb(0 0 0 / .32);
+}
+.project-card__art .ui-checks__list li:nth-child(n+3) { display: none; }
+.project-card__art .ui-term__screen { max-height: 54px; overflow: hidden; }
+@media (max-width: 639px) { .project-card__art { height: 116px; } }
 
 /* the deliverables: three file tiles on one ground */
 .deliver .t-stat { line-height: 1.15; padding-bottom: 4px; }
@@ -118,10 +164,10 @@
     <a class="nav__logo" href="#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>流放做装台</a>
     <nav class="nav__links" aria-label="主导航">
       <div class="nav__item">
-        <a class="nav__link" href="#workspace">制作台 <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="nav__link" href="#projects">项目 <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav__menu">
           <div class="wrap grid">
-            <a class="menu-card span-4" href="#workspace">
+            <a class="menu-card span-4" href="#craft">
               <div class="panel"><div class="stage stage--fade-br"><div class="at-corner fit" style="--fit-max:300px;--ax:16px;--ay:16px">
                 <div class="ui ui-panel ui-checks" data-ui="checklist">
                   <div class="ui-checks__head"><div class="ui-title">目标词缀</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>2 / 6</div></div>
@@ -133,43 +179,40 @@
                   </ul>
                 </div>
               </div></div></div>
-              <span class="t-card">制作台</span>
-              <span class="t-small muted">底子、目标词缀和下一步，都在一屏里</span>
+              <span class="t-card">流放做装台</span>
+              <span class="t-small muted">装备制作助手，已上线</span>
             </a>
-            <a class="menu-card span-4" href="#decisions">
+            <a class="menu-card span-4" href="#market">
               <div class="panel"><div class="stage stage--fade-br"><div class="at-corner fit" style="--fit-max:300px;--ax:16px;--ay:16px">
                 <div class="ui ui-panel ui-term" data-ui="terminal-run">
-                  <div class="ui-term__head"><span class="ui-dots"><i></i><i></i><i></i></span><span class="ui-term__title">下一步</span></div>
+                  <div class="ui-term__head"><span class="ui-dots"><i></i><i></i><i></i></span><span class="ui-term__title">市集</span></div>
                   <div class="ui-term__screen"><div class="ui-term__track">
-                    <div class="ui-term__ln ui-term__cmd"><span class="ui-term__cwd">稀有手套</span><span class="ui-term__sig">$</span><span class="ui-term__typed">推荐 下一手</span></div>
-                    <div class="ui-term__ln ui-term__log"><svg class="ui-term__tick" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">混沌石 · 成功率 38%</span></div>
-                    <div class="ui-term__ln ui-term__log"><svg class="ui-term__tick" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">预估 14 次 · 约 210c</span></div>
+                    <div class="ui-term__ln ui-term__cmd"><span class="ui-term__cwd">国服</span><span class="ui-term__sig">$</span><span class="ui-term__typed">搜索 生命 · 抗性</span></div>
+                    <div class="ui-term__ln ui-term__log"><svg class="ui-term__tick" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">可批量比较</span></div>
                   </div></div>
                 </div>
               </div></div></div>
-              <span class="t-card">推荐下一步</span>
-              <span class="t-small muted">用哪种通货，花多少，成功率多少</span>
+              <span class="t-card">市集页插件</span>
+              <span class="t-small muted">给中国玩家用，规划中</span>
             </a>
-            <a class="menu-card span-4" href="#deliverables">
+            <a class="menu-card span-4" href="#more">
               <div class="panel"><div class="stage stage--fade-br"><div class="at-corner fit" style="--fit-max:300px;--ax:16px;--ay:16px">
                 <div class="ui ui-panel ui-checks" data-ui="checklist">
-                  <div class="ui-checks__head"><div class="ui-title">全程在本机</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>3 / 3</div></div>
-                  <div class="ui-checks__bar"><i data-checks-bar style="--k:1"></i></div>
+                  <div class="ui-checks__head"><div class="ui-title">下一个</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>0 / 1</div></div>
+                  <div class="ui-checks__bar"><i data-checks-bar style="--k:0.1"></i></div>
                   <ul class="ui-checks__list">
-                    <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">数据随页面加载</span></li>
-                    <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">物价由你自己录入</span></li>
-                    <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">关掉页面不留数据</span></li>
+                    <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">位置留给下一个</span></li>
                   </ul>
                 </div>
               </div></div></div>
-              <span class="t-card">本地运行</span>
-              <span class="t-small muted">配置内置，断网也能算</span>
+              <span class="t-card">更多项目</span>
+              <span class="t-small muted">这一页会一直加下去</span>
             </a>
           </div>
         </div>
       </div>
-      <div class="nav__item"><a class="nav__link" href="#decisions">推荐</a></div>
-      <div class="nav__item"><a class="nav__link" href="#deliverables">本地运行</a></div>
+      <div class="nav__item"><a class="nav__link" href="#craft">做装台</a></div>
+      <div class="nav__item"><a class="nav__link" href="#market">市集</a></div>
       <div class="nav__item"><a class="nav__link" href="#questions">问答</a></div>
     </nav>
     <div class="nav__actions">
@@ -182,15 +225,16 @@
 </header>
 
 <main id="top">
+  <!-- HERO: the portfolio says what the bench is, then the first screen ends on the craft window -->
   <section class="hero hero--centred" data-enter aria-labelledby="hero-h">
     <div class="wrap"><div class="hero-text">
       <div class="hero__c">
-        <a class="pill" href="#workspace"><span>流放 1 · 流放 2</span><span class="muted">数据 v1.0.0 内置</span></a>
-        <h1 id="hero-h">流放做装台：PoE 装备制作助手</h1>
-        <p class="hero__lead">选一个底子，挑出想要的词缀，然后按花费与成功率告诉你下一步该点哪种通货。纯浏览器运行，不联网、不登录，3 分钟就能出一件。</p>
+        <a class="pill" href="#projects"><span>2 个项目</span><span class="muted">1 个已上线 · 1 个在规划</span></a>
+        <h1 id="hero-h">PoE 装备制作与市集工具</h1>
+        <p class="hero__lead">给玩家做的网页工具：一个是装备制作助手，按花费与成功率告诉你下一步该点哪种通货；一个是市集页插件，正在做。全部纯浏览器运行，不联网、不登录。</p>
         <div class="btn-row">
           <a class="btn btn--primary" href="https://roccochen.github.io/poe-craft-lab-site/" target="_blank" rel="noopener">打开制作台<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
-          <a class="btn btn--secondary" href="#workspace">看制作台怎么用</a>
+          <a class="btn btn--secondary" href="#projects">看全部项目</a>
         </div>
       </div>
       <div class="hero__window" role="img" aria-label="制作台窗口：左边是待制作的物品，右边是稀有手套的目标词缀进度">
@@ -206,7 +250,6 @@
                     <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">W</span><span class="ui-win__who">瓦尔法杖</span><span class="ui-win__sub">施法速度 · 法术伤害</span><span class="ui-win__st" data-st>待做</span></li>
                     <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">R</span><span class="ui-win__who">稀有戒指</span><span class="ui-win__sub">火焰抗性 · 冰霜抗性</span><span class="ui-win__st" data-st>待做</span></li>
                     <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">A</span><span class="ui-win__who">护甲上衣</span><span class="ui-win__sub">护甲 +% · 生命</span><span class="ui-win__st" data-st>待做</span></li>
-                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">B</span><span class="ui-win__who">稀有权杖</span><span class="ui-win__sub">技能等级</span><span class="ui-win__st is-done" data-st>已达标</span></li>
                   </ul>
                 </div>
               </div>
@@ -229,70 +272,118 @@
     </div></div>
   </section>
 
-  <section class="section" id="workspace" aria-labelledby="workspace-h">
+  <!-- PROJECT INDEX: the page's table of contents; every card goes to its project section -->
+  <section class="section" id="projects" aria-labelledby="projects-h">
     <div class="wrap">
-      <div class="section-head section-head--split">
-        <h2 id="workspace-h">一件装备，从底子到成型</h2>
-        <p class="muted">左边是你手里的这几件，右边是选中那件现在有哪几条、还差哪几条。推荐每一步都写清楚用哪种通货、大约花多少。</p>
+      <div class="section-head">
+        <h2 id="projects-h">在做的事</h2>
+        <p class="muted">两个项目，都是给 Path of Exile 玩家用的网页工具。一个已经可以打开，一个还在做。</p>
       </div>
-      <div class="ui app fill" role="img" aria-label="制作台窗口：左边是待制作的物品列表，右边是稀有手套的目标词缀进度">
-        <div class="app__pane app__pane--list">
-          <div class="ui ui-panel ui-win" data-ui="window" data-open="待做" data-work="计算中" data-done="已达标">
-            <div class="ui-win__bar"><span class="ui-dots"><i></i><i></i><i></i></span><span class="ui-win__crumb"><b>物品</b> <i>/</i> 制作中</span><span class="ui-spacer"></span><span class="ui-win__search"><span class="ui-win__ph">搜索底子</span><span class="ui-kbd">/</span></span></div>
-            <div class="ui-win__body">
-              <nav class="ui-win__side" aria-hidden="true">
-                <span class="ui-win__nav is-on">制作中<em>4</em></span>
-                <span class="ui-win__nav">已完成<em>12</em></span>
-                <span class="ui-win__nav">方案</span>
-                <span class="ui-win__label">分类</span>
-                <span class="ui-win__nav"><span class="ui-win__hash">#</span>防具</span>
-                <span class="ui-win__nav"><span class="ui-win__hash">#</span>武器</span>
-              </nav>
-              <div class="ui-win__main">
-                <div class="ui-win__cols" aria-hidden="true"><span>底子</span><span>目标</span><span>状态</span><span>进度</span></div>
-                <ul class="ui-win__rows">
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">L</span><span class="ui-win__who">稀有手套</span><span class="ui-win__sub">最大生命 · 火焰抗性</span><span class="ui-win__st is-you" data-st>待做</span><span class="ui-win__age">2/6</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">W</span><span class="ui-win__who">瓦尔法杖</span><span class="ui-win__sub">施法速度 · 法术伤害</span><span class="ui-win__st" data-st>待做</span><span class="ui-win__age">1/5</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">R</span><span class="ui-win__who">稀有戒指</span><span class="ui-win__sub">火焰抗性 · 冰霜抗性</span><span class="ui-win__st" data-st>待做</span><span class="ui-win__age">3/6</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">A</span><span class="ui-win__who">护甲上衣</span><span class="ui-win__sub">护甲 +% · 生命</span><span class="ui-win__st" data-st>待做</span><span class="ui-win__age">0/6</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">B</span><span class="ui-win__who">稀有权杖</span><span class="ui-win__sub">技能等级</span><span class="ui-win__st is-done" data-st>已达标</span><span class="ui-win__age">6/6</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">H</span><span class="ui-win__who">稀有头盔</span><span class="ui-win__sub">抗性上限</span><span class="ui-win__st" data-st>待做</span><span class="ui-win__age">4/6</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">S</span><span class="ui-win__who">稀有盾牌</span><span class="ui-win__sub">格挡 · 生命</span><span class="ui-win__st" data-st>待做</span><span class="ui-win__age">2/6</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">N</span><span class="ui-win__who">稀有项链</span><span class="ui-win__sub">属性 · 抗性</span><span class="ui-win__st" data-st>待做</span><span class="ui-win__age">5/6</span></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="app__pane app__pane--open" data-ui-loop>
-          <div class="ui ui-panel ui-checks" data-ui="checklist">
-            <div class="ui-checks__head"><div class="ui-title">稀有手套 · 物品等级 86</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>2 / 6</div></div>
-            <div class="ui-checks__bar"><i data-checks-bar style="--k:0.33"></i></div>
-            <ul class="ui-checks__list">
-              <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+84 最大生命</span></li>
-              <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+41% 火焰抗性</span></li>
-              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+12% 施法速度</span></li>
-              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+35% 冰霜抗性</span></li>
-              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+20 全属性</span></li>
-              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+18% 格挡几率</span></li>
-            </ul>
-          </div>
-        </div>
+      <div class="projects">
+        <a class="project-card" href="#craft">
+          <span class="project-card__num">01</span>
+          <span class="project-card__name">流放做装台</span>
+          <div class="project-card__art"><div class="ui ui-panel ui-checks" data-ui="checklist">
+                  <div class="ui-checks__head"><div class="ui-title">目标词缀</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>2 / 6</div></div>
+                  <div class="ui-checks__bar"><i data-checks-bar style="--k:0.33"></i></div>
+                  <ul class="ui-checks__list">
+                    <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+84 最大生命</span></li>
+                    <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+41% 火焰抗性</span></li>
+                    <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+12% 施法速度</span></li>
+                  </ul>
+                </div></div>
+          <span class="project-card__desc">选底子、定目标词缀，再按成功率与花费推荐下一步的装备制作助手。</span>
+          <span class="project-card__meta"><span class="project-card__state is-live">已上线</span><span class="project-card__go">Open &rarr;</span></span>
+        </a>
+        <a class="project-card" href="#market">
+          <span class="project-card__num">02</span>
+          <span class="project-card__name">市集页插件</span>
+          <div class="project-card__art"><div class="ui ui-panel ui-term" data-ui="terminal-run">
+                  <div class="ui-term__head"><span class="ui-dots"><i></i><i></i><i></i></span><span class="ui-term__title">市集</span><span class="ui-meta">国服</span></div>
+                  <div class="ui-term__screen"><div class="ui-term__track">
+                    <div class="ui-term__ln ui-term__cmd"><span class="ui-term__cwd">搜索</span><span class="ui-term__sig">$</span><span class="ui-term__typed">生命 · 抗性</span></div>
+                    <div class="ui-term__ln ui-term__log"><svg class="ui-term__tick" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">在同一页对比</span></div>
+                  </div></div>
+                </div></div>
+          <span class="project-card__desc">给中国玩家用的市集页增强：在一页里搜索、对比和筛选，不用来回翻。</span>
+          <span class="project-card__meta"><span class="project-card__state is-wip">规划中</span><span class="project-card__go">See plan &rarr;</span></span>
+        </a>
+        <a class="project-card project-card--more" href="#more">
+          <span class="project-card__num">03</span>
+          <span class="project-card__name">下一个</span>
+          <div class="project-card__art"><div class="ui ui-panel ui-checks" data-ui="checklist">
+                  <div class="ui-checks__head"><div class="ui-title">准备发布</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>1 / 4</div></div>
+                  <div class="ui-checks__bar"><i data-checks-bar style="--k:0.25"></i></div>
+                  <ul class="ui-checks__list">
+                    <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">想清楚要解决的问题</span></li>
+                    <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">做出能用的第一版</span></li>
+                  </ul>
+                </div></div>
+          <span class="project-card__desc">每做完一个工具就加一章，编号接着往下排。</span>
+          <span class="project-card__meta"><span class="project-card__state">待定</span><span class="project-card__go">Coming &rarr;</span></span>
+        </a>
       </div>
     </div>
   </section>
 
-    <section class="section" id="decisions" aria-labelledby="decisions-h">
+  <!-- PROJECT 01: 流放做装台 -->
+  <section class="section g2" id="craft" aria-labelledby="craft-h">
     <div class="wrap">
-      <div class="grid grid--top fill">
+      <div class="group">
+        <div class="section-head section-head--split">
+          <h2 id="craft-h">01 · 流放做装台</h2>
+          <p class="muted">左边是你手里的这几件，右边是选中那件现在有哪几条、还差哪几条。推荐每一步都写清楚用哪种通货、大约花多少。</p>
+        </div>
+        <div class="ui app fill" role="img" aria-label="制作台窗口：左边是待制作的物品列表，右边是稀有手套的目标词缀进度">
+          <div class="app__pane app__pane--list">
+            <div class="ui ui-panel ui-win" data-ui="window" data-open="待做" data-work="计算中" data-done="已达标">
+              <div class="ui-win__bar"><span class="ui-dots"><i></i><i></i><i></i></span><span class="ui-win__crumb"><b>物品</b> <i>/</i> 制作中</span><span class="ui-spacer"></span><span class="ui-win__search"><span class="ui-win__ph">搜索底子</span><span class="ui-kbd">/</span></span></div>
+              <div class="ui-win__body">
+                <nav class="ui-win__side" aria-hidden="true">
+                  <span class="ui-win__nav is-on">制作中<em>4</em></span>
+                  <span class="ui-win__nav">已完成<em>12</em></span>
+                  <span class="ui-win__nav">方案</span>
+                  <span class="ui-win__label">分类</span>
+                  <span class="ui-win__nav"><span class="ui-win__hash">#</span>防具</span>
+                  <span class="ui-win__nav"><span class="ui-win__hash">#</span>武器</span>
+                </nav>
+                <div class="ui-win__main">
+                  <div class="ui-win__cols" aria-hidden="true"><span>底子</span><span>目标</span><span>状态</span><span>进度</span></div>
+                  <ul class="ui-win__rows">
+                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">L</span><span class="ui-win__who">稀有手套</span><span class="ui-win__sub">最大生命 · 火焰抗性</span><span class="ui-win__st is-you" data-st>待做</span><span class="ui-win__age">2/6</span></li>
+                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">W</span><span class="ui-win__who">瓦尔法杖</span><span class="ui-win__sub">施法速度 · 法术伤害</span><span class="ui-win__st" data-st>待做</span><span class="ui-win__age">1/5</span></li>
+                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">R</span><span class="ui-win__who">稀有戒指</span><span class="ui-win__sub">火焰抗性 · 冰霜抗性</span><span class="ui-win__st" data-st>待做</span><span class="ui-win__age">3/6</span></li>
+                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">A</span><span class="ui-win__who">护甲上衣</span><span class="ui-win__sub">护甲 +% · 生命</span><span class="ui-win__st" data-st>待做</span><span class="ui-win__age">0/6</span></li>
+                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">B</span><span class="ui-win__who">稀有权杖</span><span class="ui-win__sub">技能等级</span><span class="ui-win__st is-done" data-st>已达标</span><span class="ui-win__age">6/6</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="app__pane app__pane--open" data-ui-loop>
+            <div class="ui ui-panel ui-checks" data-ui="checklist">
+              <div class="ui-checks__head"><div class="ui-title">稀有手套 · 物品等级 86</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>2 / 6</div></div>
+              <div class="ui-checks__bar"><i data-checks-bar style="--k:0.33"></i></div>
+              <ul class="ui-checks__list">
+                <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+84 最大生命</span></li>
+                <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+41% 火焰抗性</span></li>
+                <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+12% 施法速度</span></li>
+                <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+35% 冰霜抗性</span></li>
+                <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+20 全属性</span></li>
+                <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">+18% 格挡几率</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid">
         <div class="span-5 stack-5">
-          <h2 id="decisions-h">每一步都给出理由</h2>
-          <p class="t-lead">每条推荐都标着这一步的成功率和预估花费。不喜欢的可以跳过，重新估算会按剩下的词缀重排顺序。</p>
-          <p class="muted">花费按你录入的物价换算，成功率来自内置的词缀权重与品级分布。真实结果会浮动，所以它给的是一个顺序，而不是保证。</p>
-          <p><a class="link" href="#workspace">看全部推荐</a></p>
+          <h3 class="t-card">每一步都给出理由</h3>
+          <p class="muted">每条推荐都标着这一步的成功率和预估花费。花费按你录入的物价换算，成功率来自内置的词缀权重与品级分布。</p>
+          <p><a class="btn btn--primary" href="https://roccochen.github.io/poe-craft-lab-site/" target="_blank" rel="noopener">打开制作台<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></p>
         </div>
         <div class="span-6 start-7">
-          <div class="panel" style="--p-h: 440px">
+          <div class="panel" style="--p-h: 400px">
             <div class="stage stage--fade-b">
               <div class="at-rise fit" style="--fit-max:520px;--ax:max(24px, 50% - 260px);--ay:40px" data-ui-loop>
                 <div class="ui ui-panel ui-term" data-ui="terminal-run">
@@ -302,10 +393,8 @@
                     <div class="ui-term__ln ui-term__meter"><span class="ui-term__bar" style="--p:1"><i></i></span><span class="ui-term__count">2 / 6 已达成</span></div>
                     <div class="ui-term__ln ui-term__log"><svg class="ui-term__tick" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">混沌石 · 施法速度</span><span class="ui-term__n">38%</span><span class="ui-term__t">14 次</span></div>
                     <div class="ui-term__ln ui-term__log"><svg class="ui-term__tick" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">重铸石 · 低阶生命</span><span class="ui-term__n">61%</span><span class="ui-term__t">4 次</span></div>
-                    <div class="ui-term__ln ui-term__log"><svg class="ui-term__tick" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">增幅石 · 最后一条</span><span class="ui-term__n">27%</span><span class="ui-term__t">9 次</span></div>
-                    <div class="ui-term__ln ui-term__log"><svg class="ui-term__tick" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">精华石 · 冰霜抗性</span><span class="ui-term__n">44%</span><span class="ui-term__t">11 次</span></div>
                     <div class="ui-term__ln ui-term__sum"><span class="ui-term__key">预估总花费</span><span class="ui-term__val">约 210c</span><span class="ui-term__dim">(排序用)</span></div>
-                    <div class="ui-term__ln ui-term__done"><span class="ui-term__ok"><svg viewBox="0 0 16 16"><path d="m4.5 8.3 2.4 2.4 4.6-5"/></svg></span><b>按花费从低到高</b><span class="ui-term__dim">重算于刚才</span></div>
+                    <div class="ui-term__ln ui-term__done"><span class="ui-term__ok"><svg viewBox="0 0 16 16"><path d="m4.5 8.3 2.4 2.4 4.6-5"/></svg></span><b>按花费从低到高</b></div>
                   </div></div>
                 </div>
               </div>
@@ -316,11 +405,99 @@
     </div>
   </section>
 
+  <!-- PROJECT 02: 市集页插件 (in progress) -->
+  <section class="section" id="market" aria-labelledby="market-h">
+    <div class="wrap">
+      <div class="grid grid--top fill">
+        <div class="span-5 stack-5">
+          <p class="t-label muted">02 · 规划中</p>
+          <h2 id="market-h">市集页插件</h2>
+          <p class="t-lead">给中国玩家用的市集页增强：搜索、对比和筛选在同一页完成，价格和词缀放在一起看，不用在多个标签之间来回翻。</p>
+          <p class="muted">上面是规划中的界面结构：一行一件在售物品，词缀、价格和状态并排，可以勾选几件直接对比。还没发布，细节会随实现调整。</p>
+          <p><a class="link" href="#more">关注上线</a></p>
+        </div>
+        <div class="span-6 start-7">
+          <div class="panel" style="--p-h: 420px">
+            <div class="stage stage--fade-b">
+              <div class="at-rise fit" style="--fit-max:520px;--ax:max(24px, 50% - 260px);--ay:40px">
+                <div class="ui ui-panel ui-win" data-ui="window" data-open="在售" data-work="比较中" data-done="已收藏">
+                  <div class="ui-win__bar"><span class="ui-dots"><i></i><i></i><i></i></span><span class="ui-win__crumb"><b>市集</b> <i>/</i> 国服</span><span class="ui-spacer"></span><span class="ui-win__search"><span class="ui-win__ph">搜索词缀</span></span></div>
+                  <div class="ui-win__body">
+                    <div class="ui-win__main">
+                      <div class="ui-win__cols" aria-hidden="true"><span>物品</span><span>词缀</span><span>价格</span><span>状态</span></div>
+                      <ul class="ui-win__rows">
+                        <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">手</span><span class="ui-win__who">稀有手套</span><span class="ui-win__sub">生命 · 火抗 · 施法</span><span class="ui-win__st" data-st>在售</span><span class="ui-win__age">18c</span></li>
+                        <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">戒</span><span class="ui-win__who">稀有戒指</span><span class="ui-win__sub">火抗 · 冰抗 · 属性</span><span class="ui-win__st" data-st>在售</span><span class="ui-win__age">32c</span></li>
+                        <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">杖</span><span class="ui-win__who">瓦尔法杖</span><span class="ui-win__sub">施法速度 · 法术伤害</span><span class="ui-win__st is-you" data-st>比较中</span><span class="ui-win__age">45c</span></li>
+                        <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">甲</span><span class="ui-win__who">护甲上衣</span><span class="ui-win__sub">护甲 +% · 生命</span><span class="ui-win__st" data-st>在售</span><span class="ui-win__age">27c</span></li>
+                        <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">链</span><span class="ui-win__who">稀有项链</span><span class="ui-win__sub">属性 · 生命 · 抗性</span><span class="ui-win__st" data-st>在售</span><span class="ui-win__age">51c</span></li>
+                        <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">腰</span><span class="ui-win__who">稀有腰带</span><span class="ui-win__sub">生命 · 药水效果</span><span class="ui-win__st is-you" data-st>比较中</span><span class="ui-win__age">22c</span></li>
+                        <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">靴</span><span class="ui-win__who">稀有长靴</span><span class="ui-win__sub">移动速度 · 生命</span><span class="ui-win__st is-done" data-st>已收藏</span><span class="ui-win__age">14c</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MORE: the slot the next project takes -->
+  <section class="section" id="more" aria-labelledby="more-h">
+    <div class="wrap">
+      <div class="grid grid--top">
+        <div class="span-5 stack-5">
+          <p class="t-label muted">03 · 待定</p>
+          <h2 id="more-h">下一个项目</h2>
+          <p class="t-lead">这个位置是固定的：每做完一个工具就加一个章节，编号接着往下排。</p>
+          <p class="muted">新项目上线时，这里会换成它的界面和一句说明，导航和项目列表同步更新。</p>
+          <p><a class="link" href="https://github.com/roccochen" target="_blank" rel="noopener">在 GitHub 看进度</a></p>
+        </div>
+        <div class="span-6 start-7">
+          <div class="panel" style="--p-h: 420px">
+            <div class="stage stage--fade-b">
+              <div class="at-rise fit" style="--fit-max:420px;--ax:max(24px, 50% - 210px);--ay:56px">
+                <div class="ui ui-panel ui-checks" data-ui="checklist">
+                  <div class="ui-checks__head"><div class="ui-title">准备发布</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>1 / 4</div></div>
+                  <div class="ui-checks__bar"><i data-checks-bar style="--k:0.25"></i></div>
+                  <ul class="ui-checks__list">
+                    <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">想清楚要解决的问题</span></li>
+                    <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">做出能用的第一版</span></li>
+                    <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">放到这一页上</span></li>
+                    <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">更新项目列表</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid" style="margin-top: var(--s-6)">
+        <div class="span-4">
+          <h3 class="t-card">一个入口</h3>
+          <p class="muted">一行说明它替玩家解决了哪件事，不写功能清单。</p>
+        </div>
+        <div class="span-4">
+          <h3 class="t-card">一张界面</h3>
+          <p class="muted">真实结构，不是效果图；没做出来之前不放。</p>
+        </div>
+        <div class="span-4">
+          <h3 class="t-card">一句状态</h3>
+          <p class="muted">已上线、规划中，或者不再维护。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY IT IS BUILT THIS WAY: the three things every project on this bench keeps -->
   <section class="section ground-inverse" id="deliverables" aria-labelledby="deliverables-h" data-moment="counter-rolls">
     <div class="wrap">
       <div class="section-head">
-        <h2 id="deliverables-h">打开就能用的三样东西</h2>
-        <p class="muted">页面没有账号系统，也不向你收任何东西。下面三件事都在你的浏览器里完成。</p>
+        <h2 id="deliverables-h">每个项目都守的三件事</h2>
+        <p class="muted">不分大小，做出来的工具都得满足这三条，否则不放上来。</p>
       </div>
       <div class="deliver">
         <article class="card card--row card--open">
@@ -370,6 +547,7 @@
     </div>
   </section>
 
+  <!-- QUESTIONS -->
   <section class="section" id="questions" aria-labelledby="questions-h">
     <div class="wrap">
       <div class="grid grid--top">
@@ -400,15 +578,15 @@
           </div>
           <div class="faq__item">
             <h3>需要登录或付费吗？</h3>
-            <p>不需要。没有账号系统，也没有收费入口，打开就会出现制作台。</p>
+            <p>不需要。没有账号系统，也没有收费入口，打开就会出现工具。</p>
           </div>
           <div class="faq__item">
             <h3>我的装备数据会被传走吗？</h3>
             <p>不会。所有计算都在你的浏览器里完成，价格数据也是你自己录入的。</p>
           </div>
           <div class="faq__item">
-            <h3>词缀数据是什么版本？</h3>
-            <p>页面内置一份数据，当前标的是 v1.0.0，流放 1 和流放 2 分开维护。</p>
+            <h3>市集页插件什么时候能用？</h3>
+            <p>还没定。做出来会先放在这一页上，项目列表里也会标成已上线。</p>
           </div>
           <div class="faq__item">
             <h3>成功率准吗？</h3>
@@ -439,7 +617,7 @@
         </div>
         <div class="span-3 start-7 footer__col">
           <h3 class="t-label">页面</h3>
-          <ul><li><a href="#workspace">制作台</a></li><li><a href="#decisions">推荐</a></li><li><a href="#questions">问答</a></li></ul>
+          <ul><li><a href="#projects">项目</a></li><li><a href="#craft">做装台</a></li><li><a href="#market">市集</a></li><li><a href="#questions">问答</a></li></ul>
         </div>
         <div class="span-3 footer__col">
           <h3 class="t-label">其他</h3>
