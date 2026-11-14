@@ -1,0 +1,212 @@
+/* ==========================================================================
+   Craft Bench — additive styles for the project / live-page grid.
+   Loaded after hux-blog.min.css so nothing in the compressed theme is touched.
+   ========================================================================== */
+
+.lab-hero {
+    padding: 4px 0 0;
+}
+.lab-hero__title {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    margin: 0 0 10px;
+    color: #1f2933;
+}
+.lab-hero__lede {
+    font-size: 16px;
+    line-height: 1.75;
+    color: #6b7280;
+    margin: 0 0 8px;
+    max-width: 620px;
+}
+.lab-hero__meta {
+    font-size: 12.5px;
+    color: #9ca3af;
+    margin: 0;
+    letter-spacing: .02em;
+}
+
+.lab-section-label {
+    font-size: 12px;
+    letter-spacing: .14em;
+    color: #9ca3af;
+    margin: 38px 0 14px;
+    font-weight: 600;
+}
+
+/* ---- project cards ---- */
+.lab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px;
+}
+
+.lab-card {
+    --accent: #5b8def;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 18px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none !important;
+    overflow: hidden;
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.lab-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--accent);
+}
+.lab-card:hover,
+.lab-card:focus-visible {
+    border-color: #cbd5e1;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, .09);
+    transform: translateY(-2px);
+    color: inherit;
+    outline: none;
+}
+
+.lab-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.lab-card__tag {
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent);
+}
+.lab-card__status {
+    font-size: 11px;
+    color: #6b7280;
+    background: #f3f4f6;
+    border-radius: 999px;
+    padding: 2px 9px;
+    white-space: nowrap;
+}
+.lab-card__name {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    line-height: 1.35;
+    color: #1f2933;
+}
+.lab-card__desc {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #6b7280;
+    margin: 0 0 16px;
+    flex: 1;
+}
+.lab-card__go {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.lab-empty {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+/* ---- sidebar live pages ---- */
+.lab-sidebar__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.lab-sidebar__list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+.lab-sidebar__list li:last-child {
+    border-bottom: 0;
+}
+.lab-sidebar__list a {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2933;
+    text-decoration: none;
+}
+.lab-sidebar__list a:hover {
+    color: #0085a1;
+    text-decoration: underline;
+}
+.lab-sidebar__tag {
+    font-size: 10.5px;
+    color: #9ca3af;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* ---- about page ---- */
+.lab-about p {
+    font-size: 16px;
+    line-height: 1.85;
+}
+.lab-about__links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px;
+}
+.lab-about__links li {
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 15px;
+    line-height: 1.7;
+}
+.lab-about__note {
+    color: #9ca3af;
+    font-size: 13px;
+}
+.lab-about__foot {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+/* ---- dark mode (theme toggles body.dark) ---- */
+body.dark .lab-hero__title,
+body.dark .lab-card__name,
+body.dark .lab-sidebar__list a {
+    color: #e8eaed;
+}
+body.dark .lab-card {
+    background: #1a1d21;
+    border-color: #2d3238;
+}
+body.dark .lab-card:hover {
+    border-color: #3a4048;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+}
+body.dark .lab-hero__lede,
+body.dark .lab-card__desc {
+    color: #9aa3ad;
+}
+body.dark .lab-card__status {
+    background: #262a2f;
+    color: #9aa3ad;
+}
+body.dark .lab-about__links li,
+body.dark .lab-sidebar__list li {
+    border-bottom-color: #2d3238;
+}
+
+@media (max-width: 767px) {
+    .lab-hero__title { font-size: 22px; }
+    .lab-grid { grid-template-columns: 1fr; }
+}

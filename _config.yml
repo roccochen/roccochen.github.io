@@ -1,19 +1,17 @@
 # Site settings
-title: Rocco Chen
-SEOTitle: cc的博客 | Roccochen
+title: Craft Bench
+SEOTitle: Craft Bench
 header-img: img/home-bg.jpg
-email: 125878130@qq.com
-description: "Work hard, play even harder."
+description: "Tools, experiments and notes on building things."
 keyword: ""
-url: "http://roccochen.github.io"              # your host, for absolute URL
-baseurl: "/roccochen.github.io"         # for example, '/blog' if your blog hosted on 'host/blog'
-
+url: "https://roccochen.github.io"      # your host, for absolute URL
+baseurl: ""                             # user site lives at the domain root
 
 
 # SNS settings
 RSS: false
-#weibo_username:     false
-#zhihu_username:     false
+#weibo_username:    false
+#zhihu_username:    false
 github_username:    Roccochen
 #twitter_username:  huxpro
 #facebook_username:  huxpro
@@ -25,7 +23,7 @@ github_username:    Roccochen
 highlighter: rouge
 permalink: pretty
 paginate: 10
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","_site"]
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
 
 
@@ -52,14 +50,34 @@ kramdown:
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "玩玩游戏，做做设计，学任何感兴趣的东西。"
-sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-about-description: ""           # left empty on purpose: no personal bio
+sidebar-avatar: ""                      # left empty on purpose: no avatar
 
 
 
 # Featured Tags
 featured-tags: true                     # whether or not using Feature-Tags
 featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+
+
+
+# Published projects / live pages
+# Every entry below shows up as a card on the homepage and as a link in the sidebar.
+# url: absolute (https://...) or root-relative (/some-repo/)
+projects:
+  - name: "流放做装台"
+    tag: "Web App"
+    status: "Live"
+    url: "https://roccochen.github.io/poe-craft-lab-site/"
+    desc: "Path of Exile 1 / 2 装备制作助手：选底子、定目标词缀，再按成本与成功率推荐下一步。纯前端运行，无需安装。"
+    repo: "https://github.com/roccochen/poe-craft-lab-site"
+    accent: "#c9a227"
+  - name: "Blog"
+    tag: "Writing"
+    status: "Archive"
+    url: "/"
+    desc: "长期零散的技术与设计笔记，按标签归档。"
+    accent: "#5b8def"
 
 
 

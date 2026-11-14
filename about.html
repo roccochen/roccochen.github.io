@@ -1,129 +1,35 @@
 ---
 layout: page
 title: "About"
-description: "Hey, this is Rocco Chen."
+description: "What this place is."
 header-img: "img/about-bg.jpg"
 ---
 
-<!-- Language Selector -->
-<select onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
-    <option value="0" selected> 中文 Chinese </option>
-    <option value="1"> 英语 English </option>
-</select>
-
-<!-- Chinese Version -->
-<div class="zh post-container">
-    <blockquote>
-        玩玩游戏，做做设计，学任何感兴趣的东西。
-    </blockquote>
-    2018年01月23日的晚上，坐在公司思考，到底该用什么样的方式让自己去记录各种东西呢？<br><br>也许，可以试试自己弄个博客，于是就出现了现在的这个页面。<br><br>我是一名普普通通的游戏系统策划，我喜欢鼓捣任何新奇的东西。平时会将一些心得体会工作总结的东西写在这里。<br><br>这个世界这么大，在茫茫人海中你进入到了这个页面，也许这就是一种缘分。通过任意方式联系我，我很喜欢结交朋友。
-
-    <p style="text-align:right;">
-        —— 陈宬
-    </p>
-
-</div>
-
-<!-- English Version -->
-<div class="en post-container">
-    <blockquote>
-        Play games, do design, learn anything of interest.
-    </blockquote>
-
+<div class="lab-about">
     <p>
-        In the evening of January 23, 2018, sitting in the company thinking, in the end what kind of way to allow yourself to record a variety of things?
-    </p>
-    <p>
-        Maybe, you can try yourself get a blog, so there is this page now.
-    </p>
-    <p>
-        I am an ordinary game system planning, I like to tinker with any novelty things. Usually some of the things that experience summary work written here.
-    </p>
-    <p >
-        This world is so big, in the vast sea you have entered this page, perhaps this is a fate. By any means to contact me, I like to make friends.
-    </p>
-    <p style="text-align:right;">
-    -- Rocco Chen
+        这里放我自己做的东西：网页小工具、半成品的实验，以及做这些东西时踩过的坑。
+        全部跑在浏览器里，不登录、不上传、不需要安装。
     </p>
 
-</div>
-
-<!-- Handle Language Change -->
-<script type="text/javascript">
-    var $zh = document.querySelector(".zh");
-    var $en = document.querySelector(".en");
-    function onLanChange(index){
-        if(index == 0){
-            $zh.style.display = "block";
-            $en.style.display = "none";
-        }else{
-            $en.style.display = "block";
-            $zh.style.display = "none";
-        }
-    }
-    onLanChange(0);
-</script>
-
-
-
-{% if site.duoshuo_username %}
-<!-- 多说评论框 start -->
-<div class="comment">
-    <div class="ds-thread"
-    {% if site.duoshuo_username == "huxblog" %}
-        data-thread-id="1187623191091085319"
-    {% else %}
-        data-thread-key="{{site.duoshuo_username}}/about"
+    {% if site.projects and site.projects.size > 0 %}
+    <h5 class="lab-section-label">在线页面</h5>
+    <ul class="lab-about__links">
+        {% for p in site.projects %}
+        <li>
+            {% if p.url contains '://' %}
+            <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.name }}</a>
+            {% else %}
+            <a href="{{ p.url | prepend: site.baseurl }}">{{ p.name }}</a>
+            {% endif %}
+            {% if p.desc %}<span class="lab-about__note">—— {{ p.desc }}</span>{% endif %}
+        </li>
+        {% endfor %}
+    </ul>
     {% endif %}
 
-    data-title="{{page.title}}"
-    data-url="{{site.url}}/about/"></div>
+    {% if site.github_username %}
+    <p class="lab-about__foot">
+        源码与更多仓库：<a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener">github.com/{{ site.github_username }}</a>
+    </p>
+    {% endif %}
 </div>
-<!-- 多说评论框 end -->
-
-<!-- Duoshuo hacking -->
-<input id="dsUser" type="hidden" value="{{site.duoshuo_username}}"  />
-
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-    // dynamic User hacking by Hux
-    var _user = document.getElementById('dsUser').value;
-    // duoshuo comment query.
-    var duoshuoQuery = {short_name: _user };
-    (function() {
-        var ds = document.createElement('script');
-        ds.type = 'text/javascript';ds.async = true;
-        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-        ds.charset = 'UTF-8';
-        (document.getElementsByTagName('head')[0]
-         || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-</script>
-<!-- 多说公共JS代码 end -->
-{% endif %}
-
-
-{% if site.disqus_username %}
-<!-- disqus 评论框 start -->
-<div class="comment">
-    <div id="disqus_thread" class="disqus-thread">
-
-    </div>
-</div>
-<!-- disqus 评论框 end -->
-
-<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES * * */
-    var disqus_shortname = "{{site.disqus_username}}";
-    var disqus_identifier = "{{site.disqus_username}}/{{page.url}}";
-    var disqus_url = "{{site.url}}{{page.url}}";
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<!-- disqus 公共JS代码 end -->
-{% endif %}
